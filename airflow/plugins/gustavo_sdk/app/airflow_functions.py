@@ -5,6 +5,7 @@ from gustavo_sdk.infrastructure.integration.databases.mysql_client import MySQLC
 from gustavo_sdk.infrastructure.integration.databases.postgres_client import PostgresClient
 from gustavo_sdk.app.jobs.pipelines.raw import Raw
 from gustavo_sdk.app.jobs.pipelines.bronze import Bronze
+from gustavo_sdk.app.jobs.pipelines.silver import Silver
 
 
 logger = get_logger(__name__)
@@ -136,3 +137,15 @@ def run_bronze(
     )
 
     bronze.run()
+
+
+def run_silver(
+        sql_path: str,
+        credentials_json: dict,
+) -> None:
+    silver = Silver(
+        sql_path=sql_path,
+        credentials_json=credentials_json,
+    )
+
+    silver.run()

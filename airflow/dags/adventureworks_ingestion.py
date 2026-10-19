@@ -108,6 +108,7 @@ with DAG(
         customer_ingestion >> customer_raw >> customer_bronze
 
 
+
     with TaskGroup(group_id="product") as product:
 
         product_ingestion = PythonOperator(
@@ -157,3 +158,323 @@ with DAG(
         )
 
         product_ingestion >> product_raw >> product_bronze
+
+    with TaskGroup(group_id="salesorderheader") as salesorderheader:
+
+        salesorderheader_ingestion = PythonOperator(
+            task_id="ingestion",
+            python_callable=postgres_to_bucket,
+            op_kwargs={
+                "host": host,
+                "user": user,
+                "password": password,
+                "port": port,
+                "database": database,
+                "table_name": "Sales.SalesOrderHeader",
+                "bucket_name": bucket_name,
+                "bucket_prefix": (
+                    f"{system}/salesorderheader/{hive_partition}"
+                ),
+                "credentials_json": service_account_info,
+            },
+        )
+
+        salesorderheader_raw = PythonOperator(
+            task_id="raw",
+            python_callable=run_raw,
+            op_kwargs={
+                "project_id": project_id,
+                "schema": schema,
+                "system": system,
+                "table": "salesorderheader",
+                "bucket_name": bucket_name,
+                "year": str(ano),
+                "month": mes,
+                "day": dia,
+                "credentials_json": service_account_info,
+            },
+        )
+
+        salesorderheader_bronze = PythonOperator(
+            task_id="bronze",
+            python_callable=run_bronze,
+            op_kwargs={
+                "project_id": project_id,
+                "system": system,
+                "table": "salesorderheader",
+                "pk": "salesorderid",
+                "credentials_json": service_account_info,
+            },
+        )
+
+        (
+            salesorderheader_ingestion
+            >> salesorderheader_raw
+            >> salesorderheader_bronze
+        )
+
+
+    with TaskGroup(group_id="salesorderdetail") as salesorderdetail:
+
+        salesorderdetail_ingestion = PythonOperator(
+            task_id="ingestion",
+            python_callable=postgres_to_bucket,
+            op_kwargs={
+                "host": host,
+                "user": user,
+                "password": password,
+                "port": port,
+                "database": database,
+                "table_name": "Sales.SalesOrderDetail",
+                "bucket_name": bucket_name,
+                "bucket_prefix": (
+                    f"{system}/salesorderdetail/{hive_partition}"
+                ),
+                "credentials_json": service_account_info,
+            },
+        )
+
+        salesorderdetail_raw = PythonOperator(
+            task_id="raw",
+            python_callable=run_raw,
+            op_kwargs={
+                "project_id": project_id,
+                "schema": schema,
+                "system": system,
+                "table": "salesorderdetail",
+                "bucket_name": bucket_name,
+                "year": str(ano),
+                "month": mes,
+                "day": dia,
+                "credentials_json": service_account_info,
+            },
+        )
+
+        salesorderdetail_bronze = PythonOperator(
+            task_id="bronze",
+            python_callable=run_bronze,
+            op_kwargs={
+                "project_id": project_id,
+                "system": system,
+                "table": "salesorderdetail",
+                "pk": "salesorderdetailid",
+                "credentials_json": service_account_info,
+            },
+        )
+
+        (
+            salesorderdetail_ingestion
+            >> salesorderdetail_raw
+            >> salesorderdetail_bronze
+        )
+
+
+    with TaskGroup(group_id="purchaseorderheader") as purchaseorderheader:
+
+        purchaseorderheader_ingestion = PythonOperator(
+            task_id="ingestion",
+            python_callable=postgres_to_bucket,
+            op_kwargs={
+                "host": host,
+                "user": user,
+                "password": password,
+                "port": port,
+                "database": database,
+                "table_name": "Purchasing.PurchaseOrderHeader",
+                "bucket_name": bucket_name,
+                "bucket_prefix": (
+                    f"{system}/purchaseorderheader/{hive_partition}"
+                ),
+                "credentials_json": service_account_info,
+            },
+        )
+
+        purchaseorderheader_raw = PythonOperator(
+            task_id="raw",
+            python_callable=run_raw,
+            op_kwargs={
+                "project_id": project_id,
+                "schema": schema,
+                "system": system,
+                "table": "purchaseorderheader",
+                "bucket_name": bucket_name,
+                "year": str(ano),
+                "month": mes,
+                "day": dia,
+                "credentials_json": service_account_info,
+            },
+        )
+
+        purchaseorderheader_bronze = PythonOperator(
+            task_id="bronze",
+            python_callable=run_bronze,
+            op_kwargs={
+                "project_id": project_id,
+                "system": system,
+                "table": "purchaseorderheader",
+                "pk": "purchaseorderid",
+                "credentials_json": service_account_info,
+            },
+        )
+
+        (
+            purchaseorderheader_ingestion
+            >> purchaseorderheader_raw
+            >> purchaseorderheader_bronze
+        )
+
+
+    with TaskGroup(group_id="purchaseorderdetail") as purchaseorderdetail:
+
+        purchaseorderdetail_ingestion = PythonOperator(
+            task_id="ingestion",
+            python_callable=postgres_to_bucket,
+            op_kwargs={
+                "host": host,
+                "user": user,
+                "password": password,
+                "port": port,
+                "database": database,
+                "table_name": "Purchasing.PurchaseOrderDetail",
+                "bucket_name": bucket_name,
+                "bucket_prefix": (
+                    f"{system}/purchaseorderdetail/{hive_partition}"
+                ),
+                "credentials_json": service_account_info,
+            },
+        )
+
+        purchaseorderdetail_raw = PythonOperator(
+            task_id="raw",
+            python_callable=run_raw,
+            op_kwargs={
+                "project_id": project_id,
+                "schema": schema,
+                "system": system,
+                "table": "purchaseorderdetail",
+                "bucket_name": bucket_name,
+                "year": str(ano),
+                "month": mes,
+                "day": dia,
+                "credentials_json": service_account_info,
+            },
+        )
+
+        purchaseorderdetail_bronze = PythonOperator(
+            task_id="bronze",
+            python_callable=run_bronze,
+            op_kwargs={
+                "project_id": project_id,
+                "system": system,
+                "table": "purchaseorderdetail",
+                "pk": "purchaseorderdetailid",
+                "credentials_json": service_account_info,
+            },
+        )
+
+        (
+            purchaseorderdetail_ingestion
+            >> purchaseorderdetail_raw
+            >> purchaseorderdetail_bronze
+        )
+
+
+    with TaskGroup(group_id="vendor") as vendor:
+
+        vendor_ingestion = PythonOperator(
+            task_id="ingestion",
+            python_callable=postgres_to_bucket,
+            op_kwargs={
+                "host": host,
+                "user": user,
+                "password": password,
+                "port": port,
+                "database": database,
+                "table_name": "Purchasing.Vendor",
+                "bucket_name": bucket_name,
+                "bucket_prefix": (
+                    f"{system}/vendor/{hive_partition}"
+                ),
+                "credentials_json": service_account_info,
+            },
+        )
+
+        vendor_raw = PythonOperator(
+            task_id="raw",
+            python_callable=run_raw,
+            op_kwargs={
+                "project_id": project_id,
+                "schema": schema,
+                "system": system,
+                "table": "vendor",
+                "bucket_name": bucket_name,
+                "year": str(ano),
+                "month": mes,
+                "day": dia,
+                "credentials_json": service_account_info,
+            },
+        )
+
+        vendor_bronze = PythonOperator(
+            task_id="bronze",
+            python_callable=run_bronze,
+            op_kwargs={
+                "project_id": project_id,
+                "system": "adventureworks",
+                "table": "vendor",
+                "pk": "businessentityid",
+                "credentials_json": service_account_info,
+            },
+        )
+
+        vendor_ingestion >> vendor_raw >> vendor_bronze
+
+    with TaskGroup(group_id="workorder") as workorder:
+
+        workorder_ingestion = PythonOperator(
+            task_id="ingestion",
+            python_callable=postgres_to_bucket,
+            op_kwargs={
+                "host": host,
+                "user": user,
+                "password": password,
+                "port": port,
+                "database": database,
+                "table_name": "Production.WorkOrder",
+                "bucket_name": bucket_name,
+                "bucket_prefix": (
+                    f"{system}/workorder/{hive_partition}"
+                ),
+                "credentials_json": service_account_info,
+            },
+        )
+
+        workorder_raw = PythonOperator(
+            task_id="raw",
+            python_callable=run_raw,
+            op_kwargs={
+                "project_id": project_id,
+                "schema": schema,
+                "system": system,
+                "table": "workorder",
+                "bucket_name": bucket_name,
+                "year": str(ano),
+                "month": mes,
+                "day": dia,
+                "credentials_json": service_account_info,
+            },
+        )
+
+        workorder_bronze = PythonOperator(
+            task_id="bronze",
+            python_callable=run_bronze,
+            op_kwargs={
+                "project_id": project_id,
+                "system": system,
+                "table": "workorder",
+                "pk": "workorderid",
+                "credentials_json": service_account_info,
+            },
+        )
+
+        workorder_ingestion >> workorder_raw >> workorder_bronze
