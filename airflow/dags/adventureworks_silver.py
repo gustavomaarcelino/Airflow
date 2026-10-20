@@ -24,7 +24,7 @@ SQL_PATH = (
     / "plugins"
     / "gustavo_sdk"
     / "sql"
-    / "pipelines"
+    / "silver"
 )
 
 
