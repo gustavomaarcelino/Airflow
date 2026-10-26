@@ -67,3 +67,36 @@ with DAG(
             "credentials_json": service_account_info,
         },
     )
+
+    dim_cliente = PythonOperator(
+        task_id="dim_cliente",
+        python_callable=run_silver,
+        op_kwargs={
+            "sql_path": str(
+                SQL_PATH / "dim_cliente.sql"
+            ),
+            "credentials_json": service_account_info,
+        },
+    )
+
+    dim_produto = PythonOperator(
+        task_id="dim_produto",
+        python_callable=run_silver,
+        op_kwargs={
+            "sql_path": str(
+                SQL_PATH / "dim_produto.sql"
+            ),
+            "credentials_json": service_account_info,
+        },
+    )
+
+    dim_fornecedor = PythonOperator(
+        task_id="dim_fornecedor",
+        python_callable=run_silver,
+        op_kwargs={
+            "sql_path": str(
+                SQL_PATH / "dim_fornecedor.sql"
+            ),
+            "credentials_json": service_account_info,
+        },
+    )
