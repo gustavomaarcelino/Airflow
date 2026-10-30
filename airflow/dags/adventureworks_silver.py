@@ -91,11 +91,11 @@ with DAG(
     )
 
     dim_fornecedor = PythonOperator(
-        task_id="dim_fornecedor",
+        task_id="dim_fornecedor.sql",
         python_callable=run_silver,
         op_kwargs={
             "sql_path": str(
-                SQL_PATH / "dim_fornecedor.sql"
+                SQL_PATH / "dim_fornecedor.sql.sql"
             ),
             "credentials_json": service_account_info,
         },
