@@ -11,7 +11,7 @@ SELECT
     d.rejectedqty,
     d.duedate,
     h.orderdate,
-    h.vendorid
+    h.vendorid AS businessentityid
 
 FROM `ecommercegustavo-data-500420.adventureworks_bronze.purchaseorderdetail` AS d
 INNER JOIN `ecommercegustavo-data-500420.adventureworks_bronze.purchaseorderheader` AS h
