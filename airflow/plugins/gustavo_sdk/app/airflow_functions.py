@@ -6,6 +6,7 @@ from gustavo_sdk.infrastructure.integration.databases.postgres_client import Pos
 from gustavo_sdk.app.jobs.pipelines.raw import Raw
 from gustavo_sdk.app.jobs.pipelines.bronze import Bronze
 from gustavo_sdk.app.jobs.pipelines.silver import Silver
+from gustavo_sdk.app.jobs.pipelines.gold import Gold
 
 
 logger = get_logger(__name__)
@@ -149,3 +150,14 @@ def run_silver(
     )
 
     silver.run()
+
+def run_gold(
+        sql_path: str,
+        credentials_json: dict,
+) -> None:
+    gold = Gold(
+        sql_path=sql_path,
+        credentials_json=credentials_json,
+    )
+
+    gold.run()
