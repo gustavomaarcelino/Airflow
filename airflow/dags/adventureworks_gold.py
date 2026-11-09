@@ -36,68 +36,11 @@ with DAG(
     catchup=False,
 ) as dag:
 
-    fato_vendas = PythonOperator(
-        task_id="fato_vendas",
+    obt = PythonOperator(
+        task_id="obt",
         python_callable=run_gold,
         op_kwargs={
-            "sql_path": str(
-                SQL_PATH / "fato_vendas.sql"
-            ),
-            "credentials_json": service_account_info,
-        },
-    )
-
-    fato_compras = PythonOperator(
-        task_id="fato_compras",
-        python_callable=run_gold,
-        op_kwargs={
-            "sql_path": str(
-                SQL_PATH / "fato_compras.sql"
-            ),
-            "credentials_json": service_account_info,
-        },
-    )
-
-    fato_producao = PythonOperator(
-        task_id="fato_producao",
-        python_callable=run_gold,
-        op_kwargs={
-            "sql_path": str(
-                SQL_PATH / "fato_producao.sql"
-            ),
-            "credentials_json": service_account_info,
-        },
-    )
-
-    dim_cliente = PythonOperator(
-        task_id="dim_cliente",
-        python_callable=run_gold,
-        op_kwargs={
-            "sql_path": str(
-                SQL_PATH / "dim_cliente.sql"
-            ),
-            "credentials_json": service_account_info,
-        },
-    )
-
-    dim_produto = PythonOperator(
-        task_id="dim_produto",
-        python_callable=run_gold,
-        op_kwargs={
-            "sql_path": str(
-                SQL_PATH / "dim_produto.sql"
-            ),
-            "credentials_json": service_account_info,
-        },
-    )
-
-    dim_fornecedor = PythonOperator(
-        task_id="dim_fornecedor",
-        python_callable=run_gold,
-        op_kwargs={
-            "sql_path": str(
-                SQL_PATH / "dim_fornecedor.sql"
-            ),
+            "sql_path": str(SQL_PATH / "obt.sql"),
             "credentials_json": service_account_info,
         },
     )
