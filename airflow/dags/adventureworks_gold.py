@@ -36,11 +36,31 @@ with DAG(
     catchup=False,
 ) as dag:
 
-    obt = PythonOperator(
-        task_id="obt",
+    obt_vendas = PythonOperator(
+        task_id="obt_vendas",
         python_callable=run_gold,
         op_kwargs={
-            "sql_path": str(SQL_PATH / "obt.sql"),
+            "sql_path": str(SQL_PATH / "obt_vendas.sql"),
             "credentials_json": service_account_info,
         },
     )
+
+    obt_compras = PythonOperator(
+        task_id="obt_compras",
+        python_callable=run_gold,
+        op_kwargs={
+            "sql_path": str(SQL_PATH / "obt_compras.sql"),
+            "credentials_json": service_account_info,
+        },
+    )
+
+    obt_producao = PythonOperator(
+        task_id="obt_producao",
+        python_callable=run_gold,
+        op_kwargs={
+            "sql_path": str(SQL_PATH / "obt_producao.sql"),
+            "credentials_json": service_account_info,
+        },
+    )
+
+    obt_vendas >> obt_compras >> obt_producao
