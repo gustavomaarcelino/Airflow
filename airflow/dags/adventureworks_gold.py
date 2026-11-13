@@ -62,5 +62,3 @@ with DAG(
             "credentials_json": service_account_info,
         },
     )
-
-    obt_vendas >> obt_compras >> obt_producao

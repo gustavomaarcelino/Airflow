@@ -4,35 +4,35 @@ CREATE OR REPLACE TABLE
 
 SELECT
     -- Identificação da compra
-    fc.purchaseorderdetailid,
-    fc.purchaseorderid,
-    fc.orderdate,
-    fc.duedate,
+    fc.purchaseorderdetailid AS id_item_pedido_compra,
+    fc.purchaseorderid AS id_pedido_compra,
+    fc.orderdate AS data_pedido_compra,
+    fc.duedate AS data_prevista,
 
     -- Informações da compra
-    fc.productid,
-    fc.businessentityid,
-    fc.orderqty,
-    fc.unitprice,
-    fc.receivedqty,
-    fc.rejectedqty,
+    fc.productid AS id_produto,
+    fc.businessentityid AS id_fornecedor,
+    fc.orderqty AS quantidade_pedida,
+    fc.unitprice AS preco_unitario,
+    fc.receivedqty AS quantidade_recebida,
+    fc.rejectedqty AS quantidade_rejeitada,
 
     -- Informações do produto
-    dp.name AS produto_nome,
-    dp.productnumber,
-    dp.color,
-    dp.listprice,
-    dp.size,
-    dp.productline,
-    dp.style,
+    dp.name AS nome_produto,
+    dp.productnumber AS numero_produto,
+    dp.color AS cor,
+    dp.listprice AS preco_tabela,
+    dp.size AS tamanho,
+    dp.productline AS linha_produto,
+    dp.style AS estilo,
 
     -- Informações do fornecedor
-    df.accountnumber,
-    df.name AS fornecedor_nome,
-    df.creditrating,
-    df.preferredvendorstatus,
-    df.activeflag,
-    df.purchasingwebserviceurl
+    df.accountnumber AS numero_conta,
+    df.name AS nome_fornecedor,
+    df.creditrating AS classificacao_credito,
+    df.preferredvendorstatus AS fornecedor_preferencial,
+    df.activeflag AS fornecedor_ativo,
+    df.purchasingwebserviceurl AS url_servico_compras
 
 FROM `ecommercegustavo-data-500420.adventureworks_silver.fato_compras` AS fc
 
