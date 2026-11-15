@@ -22,7 +22,16 @@ SELECT
     dp.listprice AS preco_tabela,
     dp.size AS tamanho,
     dp.productline AS linha_produto,
-    dp.style AS estilo,
+
+CASE
+    WHEN dp.productline = 'M' THEN 'Mountain'
+    WHEN dp.productline = 'R' THEN 'Road'
+    WHEN dp.productline = 'T' THEN 'Touring'
+    WHEN dp.productline = 'S' THEN 'Standard'
+    ELSE 'Não informado'
+END AS descricao_linha_produto,
+
+dp.style AS estilo,
 
     -- Informações do cliente
     dc.personid AS id_pessoa,
