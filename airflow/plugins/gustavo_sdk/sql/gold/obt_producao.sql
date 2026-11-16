@@ -21,6 +21,15 @@ SELECT
     dp.listprice AS preco_tabela,
     dp.size AS tamanho,
     dp.productline AS linha_produto,
+
+    CASE
+        WHEN TRIM(dp.productline) = 'M' THEN 'Mountain'
+        WHEN TRIM(dp.productline) = 'R' THEN 'Road'
+        WHEN TRIM(dp.productline) = 'T' THEN 'Touring'
+        WHEN TRIM(dp.productline) = 'S' THEN 'Standard'
+        ELSE 'Não informado'
+    END AS descricao_linha_produto,
+
     dp.style AS estilo
 
 FROM `ecommercegustavo-data-500420.adventureworks_silver.fato_producao` AS fp
